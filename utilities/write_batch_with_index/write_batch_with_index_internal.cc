@@ -233,7 +233,8 @@ Status WriteBatchWithIndexInternal::MergeKey(const Slice& key,
 }
 
 WriteBatchWithIndexInternal::Result WriteBatchWithIndexInternal::GetFromBatch(
-    WriteBatchWithIndex* batch, const Slice& key, MergeContext* merge_context,
+    WriteBatchWithIndex* batch, const Slice& key,
+    DeletedRangeMap& deleted_ranges, MergeContext* merge_context,
     std::string* value, bool overwrite_key, Status* s) {
   uint32_t cf_id = GetColumnFamilyID(column_family_);
   *s = Status::OK();
@@ -338,6 +339,12 @@ WriteBatchWithIndexInternal::Result WriteBatchWithIndexInternal::GetFromBatch(
         if (result == WriteBatchWithIndexInternal::Result::kFound) {  // PUT
           value->assign(entry_value.data(), entry_value.size());
         }
+      }
+    }
+
+    if (result == kNotFound) {
+      if (deleted_ranges.IsInInterval(key)) {
+        result = WriteBatchWithIndexInternal::Result::kDeleted;
       }
     }
   }

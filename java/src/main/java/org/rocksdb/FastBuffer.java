@@ -81,7 +81,7 @@ public class FastBuffer extends RocksMutableObject {
    * @return  This buffer
    *
    * @throws  IllegalArgumentException
-   *          If the preconditions on <tt>newPosition</tt> do not hold
+   *          If the preconditions on <code>newPosition</code> do not hold
    */
   public final FastBuffer position(int newPosition) {
     if ((newPosition > limit) || (newPosition < 0))
@@ -111,7 +111,7 @@ public class FastBuffer extends RocksMutableObject {
    * @return  This buffer
    *
    * @throws  IllegalArgumentException
-   *          If the preconditions on <tt>newLimit</tt> do not hold
+   *          If the preconditions on <code>newLimit</code> do not hold
    */
   public final FastBuffer limit(int newLimit) {
     if ((newLimit > capacity) || (newLimit < 0))
@@ -162,7 +162,7 @@ public class FastBuffer extends RocksMutableObject {
    * Tells whether there are any elements between the current position and
    * the limit.
    *
-   * @return  <tt>true</tt> if, and only if, there is at least one element
+   * @return  <code>true</code> if, and only if, there is at least one element
    *          remaining in this buffer
    */
   public final boolean hasRemaining() {
@@ -207,7 +207,7 @@ public class FastBuffer extends RocksMutableObject {
    *
    * @param index The index from which the byte will be read
    * @return The byte at the given index
-   * @throws IndexOutOfBoundsException If <tt>index</tt> is negative
+   * @throws IndexOutOfBoundsException If <code>index</code> is negative
    *                                   or not smaller than the buffer's limit
    */
   public byte get(int index) {
@@ -226,7 +226,7 @@ public class FastBuffer extends RocksMutableObject {
    * @param index The index at which the byte will be written
    * @param b     The byte value to be written
    * @return This buffer
-   * @throws IndexOutOfBoundsException If <tt>index</tt> is negative
+   * @throws IndexOutOfBoundsException If <code>index</code> is negative
    *                                   or not smaller than the buffer's limit
    */
   public FastBuffer put(int index, byte b) {

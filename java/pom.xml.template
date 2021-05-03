@@ -59,8 +59,7 @@
     </mailingLists>
 
     <properties>
-        <project.build.source>1.7</project.build.source>
-        <project.build.target>1.7</project.build.target>
+        <maven.compiler.release>8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -71,8 +70,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
-                    <source>${project.build.source}</source>
-                    <target>${project.build.target}</target>
+                    <release>${maven.compiler.release}</release>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>

@@ -250,6 +250,7 @@ include $(ROCKSDB_PLUGIN_MKS)
 ROCKSDB_PLUGIN_SOURCES = $(foreach plugin, $(ROCKSDB_PLUGINS), $(foreach source, $($(plugin)_SOURCES), plugin/$(plugin)/$(source)))
 ROCKSDB_PLUGIN_HEADERS = $(foreach plugin, $(ROCKSDB_PLUGINS), $(foreach header, $($(plugin)_HEADERS), plugin/$(plugin)/$(header)))
 PLATFORM_LDFLAGS += $(foreach plugin, $(ROCKSDB_PLUGINS), $($(plugin)_LDFLAGS))
+CXXFLAGS += $(foreach plugin, $(ROCKSDB_PLUGINS), $($(plugin)_CXXFLAGS))
 
 export JAVAC_ARGS
 CLEAN_FILES += make_config.mk rocksdb.pc
@@ -529,7 +530,7 @@ endif
 # dependencies
 ifneq ($(filter check-headers, $(MAKECMDGOALS)),)
 # TODO: add/support JNI headers
-	DEV_HEADER_DIRS := $(sort include/ hdfs/ $(dir $(ALL_SOURCES)))
+	DEV_HEADER_DIRS := $(sort include/ $(dir $(ALL_SOURCES)))
 # Some headers like in port/ are platform-specific
 	DEV_HEADERS := $(shell $(FIND) $(DEV_HEADER_DIRS) -type f -name '*.h' | egrep -v 'port/|plugin/|lua/|range_tree/|tools/rdb/db_wrapper.h|include/rocksdb/utilities/env_librados.h')
 else

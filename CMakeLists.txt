@@ -937,6 +937,20 @@ list(APPEND SOURCES
   utilities/transactions/lock/range/range_tree/lib/util/dbt.cc
   utilities/transactions/lock/range/range_tree/lib/util/memarena.cc)
 
+message(STATUS "ROCKSDB_PLUGINS: ${ROCKSDB_PLUGINS}")
+if ( ROCKSDB_PLUGINS )
+  string(REPLACE " " ";" PLUGINS ${ROCKSDB_PLUGINS})
+  foreach (plugin ${PLUGINS})
+    add_subdirectory("plugin/${plugin}")
+    foreach (src "${${plugin}_SOURCES}")
+      list(APPEND SOURCES plugin/${plugin}/${src})
+    endforeach()
+    foreach (lib "${${plugin}_LIBS}")
+      list(APPEND THIRDPARTY_LIBS ${lib})
+    endforeach()
+  endforeach()
+endif()
+
 if(HAVE_SSE42 AND NOT MSVC)
   set_source_files_properties(
     util/crc32c.cc

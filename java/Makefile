@@ -286,6 +286,13 @@ SOURCES = $(wildcard $(CORE_SOURCES) $(PLUGIN_SOURCES))
 PLUGIN_TEST_SOURCES = $(foreach root, $(ROCKSDB_PLUGIN_JAVA_ROOTS), $(foreach pkg, org/rocksdb/test org/rocksdb/util org/rocksdb, $(root)/$(TEST_SRC)/$(pkg)/*.java))
 CORE_TEST_SOURCES = $(foreach pkg, org/rocksdb/test org/rocksdb/util org/rocksdb, $(TEST_SRC)/$(pkg)/*.java)
 TEST_SOURCES = $(wildcard $(CORE_TEST_SOURCES) $(PLUGIN_TEST_SOURCES))
+$(info ROCKSDB_PLUGIN_MKS [$(ROCKSDB_PLUGIN_MKS)])
+$(info PLUGIN_SOURCES [$(PLUGIN_SOURCES)])
+$(info PLUGIN_SOURCES [$(PLUGIN_SOURCES)])
+$(info ROCKSDB_PLUGIN_JAVA_ROOTS [$(ROCKSDB_PLUGIN_JAVA_ROOTS)])
+$(info PLUGIN_TEST_SOURCES [$(PLUGIN_TEST_SOURCES)])
+$(info CORE_TEST_SOURCES [$(CORE_TEST_SOURCES)])
+$(info TEST_SOURCES [$(TEST_SOURCES)])
 
 # Configure the plugin tests and java classes
 ROCKSDB_PLUGIN_NATIVE_JAVA_CLASSES = $(foreach plugin, $(ROCKSDB_PLUGINS), $(foreach class, $($(plugin)_NATIVE_JAVA_CLASSES), $(class)))

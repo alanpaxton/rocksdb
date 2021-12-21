@@ -600,7 +600,6 @@ JNI_NATIVE_SOURCES =                                          \
   java/rocksjni/api_columnfamilyhandle.cc                     \
   java/rocksjni/api_iterator.cc                               \
   java/rocksjni/api_rocksdb.cc                                \
-  java/rocksjni/api_rocksnative.cc                            \
   java/rocksjni/backupenginejni.cc                            \
   java/rocksjni/backupablejni.cc                              \
   java/rocksjni/checkpoint.cc                                 \

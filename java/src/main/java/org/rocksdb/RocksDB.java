@@ -310,7 +310,7 @@ public class RocksDB extends RocksNative {
     db.storeOptionsInstance(options);
 
     for (int i = 1; i < handles.length; i++) {
-      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(handles[i]);
+      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandleNonDefault(handles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
 
@@ -490,7 +490,7 @@ public class RocksDB extends RocksNative {
     db.storeOptionsInstance(options);
 
     for (int i = 1; i < handles.length; i++) {
-      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(handles[i]);
+      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandleNonDefault(handles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
 
@@ -586,7 +586,7 @@ public class RocksDB extends RocksNative {
     db.storeOptionsInstance(options);
 
     for (int i = 1; i < handles.length; i++) {
-      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(handles[i]);
+      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandleNonDefault(handles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
 
@@ -631,7 +631,7 @@ public class RocksDB extends RocksNative {
   public ColumnFamilyHandle createColumnFamily(
       final ColumnFamilyDescriptor columnFamilyDescriptor)
       throws RocksDBException {
-    final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(
+    final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandleNonDefault(
         createColumnFamily(getNative(), columnFamilyDescriptor.getName(),
             columnFamilyDescriptor.getName().length,
             columnFamilyDescriptor.getOptions().nativeHandle_));
@@ -660,7 +660,7 @@ public class RocksDB extends RocksNative {
     final List<ColumnFamilyHandle> columnFamilyHandles =
         new ArrayList<>(cfHandles.length);
     for (int i = 0; i < cfHandles.length; i++) {
-      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(cfHandles[i]);
+      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandleNonDefault(cfHandles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
     ownedColumnFamilyHandles.addAll(columnFamilyHandles);
@@ -693,7 +693,7 @@ public class RocksDB extends RocksNative {
     final List<ColumnFamilyHandle> columnFamilyHandles =
         new ArrayList<>(cfHandles.length);
     for (int i = 0; i < cfHandles.length; i++) {
-      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(cfHandles[i]);
+      final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandleNonDefault(cfHandles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
     ownedColumnFamilyHandles.addAll(columnFamilyHandles);
@@ -4024,7 +4024,7 @@ public class RocksDB extends RocksNative {
    * @return The handle of the default column family
    */
   public ColumnFamilyHandle getDefaultColumnFamily() {
-    return new ColumnFamilyHandle(getDefaultColumnFamily(getNative()));
+    return new ColumnFamilyHandleDefault(getDefaultColumnFamily(getNative()));
   }
 
   /**

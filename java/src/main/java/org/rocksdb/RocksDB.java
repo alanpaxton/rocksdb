@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.rocksdb.RocksNative;
 import org.rocksdb.util.Environment;
 
 /**
@@ -637,6 +636,17 @@ public class RocksDB extends RocksNative {
             columnFamilyDescriptor.getOptions().nativeHandle_));
     ownedColumnFamilyHandles.add(columnFamilyHandle);
     return columnFamilyHandle;
+  }
+
+  /**
+   * Create a weak DB, which is generally used as a test object.
+   *
+   * @return a weak reference to a DB, so it doesn't interfere with closing the DB if other logic requires
+   * @throws RocksDBException if the DB cannot be created (e.g. if this DB is already closed)
+   */
+  public WeakDB createWeakDB()
+      throws RocksDBException {
+    return new WeakDB(createWeakDB(getNative()));
   }
 
   /**
@@ -4589,6 +4599,8 @@ public class RocksDB extends RocksNative {
 
   private native static void destroyDB(final String path,
       final long optionsHandle) throws RocksDBException;
+
+  private native long createWeakDB(long nativeHandle);
 
   private native static int version();
 

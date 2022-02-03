@@ -38,8 +38,6 @@ public class RocksDB extends RocksNative {
     RocksDB.loadLibrary();
   }
 
-  private final List<ColumnFamilyHandle> ownedColumnFamilyHandles = new ArrayList<>();
-
   /**
    * Loads the necessary library files.
    * Calling this method twice will have no effect.
@@ -313,8 +311,6 @@ public class RocksDB extends RocksNative {
       columnFamilyHandles.add(columnFamilyHandle);
     }
 
-    db.ownedColumnFamilyHandles.addAll(columnFamilyHandles);
-
     return db;
   }
 
@@ -493,8 +489,6 @@ public class RocksDB extends RocksNative {
       columnFamilyHandles.add(columnFamilyHandle);
     }
 
-    db.ownedColumnFamilyHandles.addAll(columnFamilyHandles);
-
     return db;
   }
 
@@ -589,8 +583,6 @@ public class RocksDB extends RocksNative {
       columnFamilyHandles.add(columnFamilyHandle);
     }
 
-    db.ownedColumnFamilyHandles.addAll(columnFamilyHandles);
-
     return db;
   }
 
@@ -630,12 +622,10 @@ public class RocksDB extends RocksNative {
   public ColumnFamilyHandle createColumnFamily(
       final ColumnFamilyDescriptor columnFamilyDescriptor)
       throws RocksDBException {
-    final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(
+    return new ColumnFamilyHandle(
         createColumnFamily(getNative(), columnFamilyDescriptor.getName(),
             columnFamilyDescriptor.getName().length,
             columnFamilyDescriptor.getOptions().nativeHandle_));
-    ownedColumnFamilyHandles.add(columnFamilyHandle);
-    return columnFamilyHandle;
   }
 
   /**
@@ -673,7 +663,6 @@ public class RocksDB extends RocksNative {
       final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(cfHandles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
-    ownedColumnFamilyHandles.addAll(columnFamilyHandles);
     return columnFamilyHandles;
   }
 
@@ -706,7 +695,6 @@ public class RocksDB extends RocksNative {
       final ColumnFamilyHandle columnFamilyHandle = new ColumnFamilyHandle(cfHandles[i]);
       columnFamilyHandles.add(columnFamilyHandle);
     }
-    ownedColumnFamilyHandles.addAll(columnFamilyHandles);
     return columnFamilyHandles;
   }
 
@@ -741,19 +729,12 @@ public class RocksDB extends RocksNative {
 
   /**
    * Deletes native column family handle of given {@link ColumnFamilyHandle} Java object
-   * and removes reference from {@link RocksDB#ownedColumnFamilyHandles}.
+   * With the new-style reference counted API all references are removed on
+   * {@link ColumnFamilyHandle#close() close} The close can be explicit, or (and this is best) {@link AutoCloseable#close()}
    *
    * @param columnFamilyHandle column family handle object.
    */
-  public void destroyColumnFamilyHandle(final ColumnFamilyHandle columnFamilyHandle) {
-    for (int i = 0; i < ownedColumnFamilyHandles.size(); ++i) {
-      final ColumnFamilyHandle ownedHandle = ownedColumnFamilyHandles.get(i);
-      if (ownedHandle.equals(columnFamilyHandle)) {
-        columnFamilyHandle.close();
-        ownedColumnFamilyHandles.remove(i);
-        return;
-      }
-    }
+  @Deprecated public void destroyColumnFamilyHandle(final ColumnFamilyHandle columnFamilyHandle) throws RocksDBException {
   }
 
   /**

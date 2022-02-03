@@ -1663,6 +1663,7 @@ public class RocksDB extends RocksNative {
    */
   public void write(final WriteOptions writeOpts, final WriteBatch updates)
       throws RocksDBException {
+    write0(getNative(), writeOpts.nativeHandle_, updates.getNative());
   }
 
   /**

@@ -155,10 +155,14 @@ public class RocksDB extends RocksNative {
   /**
    * Private constructor.
    *
-   * @param nativeHandle The native handle of the C++ RocksDB object
+   * @param nativeReference The native handle of the C++ RocksDB object
    */
-  protected RocksDB(final long nativeHandle) {
-    super(nativeHandle);
+  protected RocksDB(final long nativeReference) {
+    super(nativeReference);
+  }
+
+  protected RocksDB(final long nativeReference, final boolean isOpen) {
+    super(nativeReference, isOpen);
   }
 
   /**
@@ -178,6 +182,17 @@ public class RocksDB extends RocksNative {
     final Options options = new Options();
     options.setCreateIfMissing(true);
     return open(options, path);
+  }
+
+  /**
+   * Create a RocksDB object to use in a callback
+   *
+   * @param nativeHandle handle of the underlynig C++ object, 0L means no object
+   * @return a RocksDB object, either "open" or "closed" depending on the C++ object being non-null
+   */
+  protected static RocksDB openRawDBHandle(final long nativeHandle) {
+    final long apiHandle = RocksDB.fromRawDBHandle(nativeHandle);
+    return new RocksDB(apiHandle, apiHandle != 0L);
   }
 
   /**
@@ -4320,6 +4335,8 @@ public class RocksDB extends RocksNative {
   private native static long[] openAsSecondary(final long optionsHandle, final String path,
       final String secondaryPath, final byte[][] columnFamilyNames,
       final long[] columnFamilyOptions) throws RocksDBException;
+
+  private native static long fromRawDBHandle(final long handle);
 
   private native static void closeDatabase(final long handle)
       throws RocksDBException;

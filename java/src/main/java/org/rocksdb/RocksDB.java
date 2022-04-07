@@ -1553,7 +1553,7 @@ public class RocksDB extends RocksNative {
    */
   public void delete(final WriteOptions writeOpt, final ByteBuffer key) throws RocksDBException {
     assert key.isDirect();
-    deleteDirect(getNative(), writeOpt.nativeHandle_, key, key.position(), key.remaining(), 0);
+    deleteDirect(getNative(), writeOpt.nativeHandle_, key, key.position(), key.remaining());
     key.position(key.limit());
   }
 

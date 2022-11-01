@@ -165,6 +165,9 @@ case "$TARGET_OS" in
         COMMON_FLAGS="$COMMON_FLAGS -DOS_LINUX"
         if [ -z "$USE_CLANG" ]; then
             COMMON_FLAGS="$COMMON_FLAGS -fno-builtin-memcmp"
+            if [ "$TARGET_ARCHITECTURE" = "riscv64" ]; then
+                PLATFORM_LDFLAGS="$PLATFORM_LDFLAGS -latomic"
+            fi
         else
             PLATFORM_LDFLAGS="$PLATFORM_LDFLAGS -latomic"
         fi

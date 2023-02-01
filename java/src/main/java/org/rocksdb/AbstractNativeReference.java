@@ -69,6 +69,7 @@ public abstract class AbstractNativeReference implements AutoCloseable {
   protected void finalize() throws Throwable {
     if (isOwningHandle()) {
       //TODO(AR) log a warning message... developer should have called close()
+      System.err.println("finalize() - developer should have called close(): " + getClass().getName());
     }
     dispose();
     super.finalize();
